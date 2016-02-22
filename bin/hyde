@@ -14,16 +14,24 @@ def check_path(path)
   Dir.exist?(path)
 end
 
-if action == 'new' && !check_path(file_path)
-  new_project(file_path)
-else
-  puts "already exists!"
+def create_skeleton(action, path)
+  raise ArgumentError if check_path(path)
+  if action == 'new'
+    new_project(path)
+    # populate created directory with 'skeleton'
+  end
 end
 
-# ARGV[0] - will be the 'action'
-# => 'new' will create the basic project setup
-# => create directory
-# => fill directory with files
+create_skeleton(action, file_path)
 
-# ARGV[1] - will be the 'path'
-# => location where 'new' will place the project skeleton
+# if action == 'new' && !check_path(file_path)
+#   new_project(file_path)
+#   # populate created directory with 'skeleton'
+# else
+#   puts "already exists!"
+# end
+
+
+if __FILE__ == $0
+
+end

@@ -1,8 +1,17 @@
 #!/usr/bin/env ruby
+require 'pry'
 
 args = ARGV
 puts "You ran Hyde with these arguments: #{args}"
 
-# ##############
-# Your code here
-# ##############
+if args[0] == 'new'
+  Dir.mkdir args[1]
+end
+
+# ARGV[0] - will be the 'action'
+# => 'new' will create the basic project setup
+# => create directory
+# => fill directory with files
+
+# ARGV[1] - will be the 'path'
+# => location where 'new' will place the project skeleton

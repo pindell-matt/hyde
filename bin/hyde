@@ -8,6 +8,11 @@ puts "You ran Hyde with these arguments: #{args}"
 
 def new_project(path)
   Dir.mkdir path
+  Dir.mkdir (path + "/_output")
+  Dir.mkdir (path + "/source")
+  Dir.mkdir (path + "/source" + "/css")
+  Dir.mkdir (path + "/source" + "/pages")
+  Dir.mkdir (path + "/source" + "/post")
 end
 
 def check_path(path)

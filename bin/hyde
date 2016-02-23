@@ -19,9 +19,10 @@ class Hyde
   end
 
   def parse_submission
-    if action == 'new'
+    case action
+    when 'new'
       build_new
-    elsif action == 'build'
+    when 'build'
       build_output
     end
   end

@@ -1,4 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
+# $LOAD_PATH.unshift(File.dirname(__FILE__))
+
+lib_folder = File.expand_path(__dir__)
+$LOAD_PATH << lib_folder
+
 # require 'simplecov'
 # SimpleCov.start
 require 'minitest/autorun'

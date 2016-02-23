@@ -90,6 +90,17 @@ class HydeTest < Minitest::Test
     assert File.exists? File.expand_path(@file_path + '/source/posts/' + file_name)
   end
 
+  def test_that_new_html_post_with_timestamp_in_output
+    post_name = "Long Post Name"
+    create    = `bin/hyde new #{@file_path}`
+    post      = `bin/hyde post #{@file_path} #{post_name}`
+    build     = `bin/hyde build #{@file_path}`
+    file_name = Time.new.strftime('%Y-%m-%d') + '-' + post_name.gsub(' ', '-') + '.html'
+
+    assert File.exists? File.expand_path(@file_path + '/_output/posts/' + file_name)
+  end
+
+
 
   # file name matches ARGS
   # .md file has title content

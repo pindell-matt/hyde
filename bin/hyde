@@ -12,15 +12,13 @@ class Parse
   end
 
   def parse_submission
+    hyde = Hyde.new(@action, @path, @title)
     case action
     when 'new'
-      hyde = Hyde.new(@action, @path)
       hyde.build_new
     when 'build'
-      hyde = Hyde.new(@action, @path)
       hyde.build_output
     when 'post'
-      hyde = Hyde.new(@action, @path, @title)
       hyde.build_post
     end
   end

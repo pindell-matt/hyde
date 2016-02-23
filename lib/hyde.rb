@@ -1,5 +1,6 @@
 require 'pry'
 require 'kramdown'
+require 'erb'
 
 class Hyde
   attr_reader :action, :path, :title
@@ -41,9 +42,15 @@ class Hyde
 
   def markdown_to_html(file_path)
     markdown = File.read(file_path)
-    html = Kramdown::Document.new(markdown).to_html
-    File.open(file_path, 'w') { |file| file.write(html) }
+    formatted_html = default_html_format(markdown)
+    File.open(file_path, 'w') { |file| file.write(formatted_html) }
     File.rename(file_path, file_path.split('.')[0] + '.html')
+  end
+
+  def default_html_format(markdown)
+    html = Kramdown::Document.new(markdown).to_html
+    template = File.read(path + '/source/layouts/default.html.erb')
+    ERB.new(template).result(binding)
   end
 
   def build_post

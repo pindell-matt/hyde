@@ -9,8 +9,8 @@ class Hyde
     @path   = path
   end
 
-  def clone_template(path)
-    FileUtils.cp_r( 'bin/template/.', path)
+  def clone(source, destination)
+    FileUtils.cp_r(source, destination)
   end
 
   def check_path(path)
@@ -18,14 +18,38 @@ class Hyde
   end
 
   def parse_submission
-    raise ArgumentError if check_path(path)
-    timestamp = Time.new.to_s.split[0]
+    # timestamp = Time.new.to_s.split[0]
     if action == 'new'
-      clone_template(path)
-      full_path_to_welcome = path + "/source/posts/"
-      File.rename(full_path_to_welcome + 'welcome.markdown', full_path_to_welcome + timestamp + '-welcome-to-hyde.markdown')
+      build_new
+      # raise ArgumentError if check_path(path)
+      # clone('bin/template/.', path)
+      # full_path_to_welcome = path + "/source/posts/"
+      # File.rename(full_path_to_welcome + 'welcome.markdown', full_path_to_welcome + timestamp + '-welcome-to-hyde.markdown')
+    elsif action == 'build'
+      build_output
     end
   end
+
+  def build_new
+    raise ArgumentError if check_path(path)
+    timestamp = Time.new.to_s.split[0]
+    clone('bin/template/.', path)
+    full_path_to_welcome = path + "/source/posts/"
+    File.rename(full_path_to_welcome + 'welcome.markdown', full_path_to_welcome + timestamp + '-welcome-to-hyde.markdown')
+  end
+
+  def build_output
+    FileUtils.cp_r(path + '/source/.', path + '/_output')
+    # Dir.glob('/path/to/dir/*.markdown') do |md_file|
+    #   # do work on files ending in .rb in the desired directory
+    # end
+  end
+
+    # Iterate through all the files and directories in the source directory
+    # If an element is a Markdown file, convert it to html and copy it to the appropriate place inside of _output
+    # If an element is any other type of File, simply copy it to the appropriate place inside _output
+    # If an element is directory, create a matching subdirectory inside the _output directory, then repeat this process for any files or folders within it.
+
 
 end
 

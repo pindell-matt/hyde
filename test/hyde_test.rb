@@ -33,6 +33,18 @@ class HydeTest < Minitest::Test
     assert File.exists? File.expand_path(@file_path + '/source/css/main.css')
   end
 
+  def test_that_index_markdown_is_created
+    submitted = `bin/hyde new #{@file_path}`
+
+    assert File.exists? File.expand_path(@file_path + '/source/index.markdown')
+  end
+
+  def test_that_about_markdown_is_created
+    submitted = `bin/hyde new #{@file_path}`
+
+    assert File.exists? File.expand_path(@file_path + '/source/pages/about.markdown')
+  end
+  
   def test_that_initial_post_markdown_is_created_with_timestamp
     submitted = `bin/hyde new #{@file_path}`
     timestamp = Time.new.strftime('%Y-%m-%d') + '-'

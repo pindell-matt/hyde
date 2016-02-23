@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'pry'
+require 'fileutils'
 
 args      = ARGV
 action    = args[0]
@@ -7,12 +8,7 @@ file_path = args[1]
 puts "You ran Hyde with these arguments: #{args}"
 
 def new_project(path)
-  Dir.mkdir path
-  Dir.mkdir (path + "/_output")
-  Dir.mkdir (path + "/source")
-  Dir.mkdir (path + "/source" + "/css")
-  Dir.mkdir (path + "/source" + "/pages")
-  Dir.mkdir (path + "/source" + "/post")
+  FileUtils.cp_r( 'bin/template/.', path)
 end
 
 def check_path(path)
@@ -28,13 +24,6 @@ def create_skeleton(action, path)
 end
 
 create_skeleton(action, file_path)
-
-# if action == 'new' && !check_path(file_path)
-#   new_project(file_path)
-#   # populate created directory with 'skeleton'
-# else
-#   puts "already exists!"
-# end
 
 
 if __FILE__ == $0

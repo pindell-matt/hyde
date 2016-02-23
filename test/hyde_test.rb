@@ -81,9 +81,19 @@ class HydeTest < Minitest::Test
     assert File.exists? File.expand_path(@file_path + '/_output/posts/' + timestamp + 'welcome-to-hyde.html')
   end
 
-  # assert source is .md
-  # assert _output is .html
-  # file exist?
+  def test_that_new_markdown_post_with_timestamp_in_source
+    post_name = "Long Post Name"
+    create    = `bin/hyde new #{@file_path}`
+    post      = `bin/hyde post #{@file_path} #{post_name}`
+    file_name = Time.new.strftime('%Y-%m-%d') + '-' + post_name.gsub(' ', '-') + '.markdown'
+
+    assert File.exists? File.expand_path(@file_path + '/source/posts/' + file_name)
+  end
+
+
+  # file name matches ARGS
+  # .md file has title content
+
   # check content matches?
   # post title matches .md and .html content
 

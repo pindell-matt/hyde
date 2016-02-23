@@ -18,16 +18,32 @@ class HydeTest < Minitest::Test
   end
 
   def test_new_creates_directory
-    # file_path = '~/hyde-test'
     submitted = `bin/hyde new #{@file_path}`
 
     assert File.exists? File.expand_path(@file_path)
   end
 
   def test_auto_delete_is_working
-    # file_path = '~/hyde-test'
     refute File.exists? File.expand_path(@file_path)
   end
+
+  def test_that_main_css_is_created
+    submitted = `bin/hyde new #{@file_path}`
+
+    assert File.exists? File.expand_path(@file_path + '/source/css/main.css')
+  end
+
+  def test_that_initial_post_markdown_is_created
+    submitted = `bin/hyde new #{@file_path}`
+    timestamp = Time.new.to_s.split[0] + '-'
+
+    assert File.exists? File.expand_path(@file_path + '/source/posts/' + timestamp + 'welcome-to-hyde.markdown')
+  end
+
+
+  # def test_that_it_generates_a_timestamp
+  #
+  # end
 
   # assert source is .md
   # assert _output is .html

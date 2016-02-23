@@ -10,7 +10,7 @@ class HydeTest < Minitest::Test
 
   def test_new_creates_directory
     file_path = '~/hyde-test'
-    submitted = `bin/hyde new ~/hyde-test`
+    submitted = `bin/hyde new #{file_path}`
 
     assert File.exists? File.expand_path(file_path)
   end

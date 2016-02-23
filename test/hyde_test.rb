@@ -27,35 +27,59 @@ class HydeTest < Minitest::Test
     refute File.exists? File.expand_path(@file_path)
   end
 
-  def test_that_main_css_is_created
+  def test_that_main_css_is_created_in_source
     submitted = `bin/hyde new #{@file_path}`
 
     assert File.exists? File.expand_path(@file_path + '/source/css/main.css')
   end
 
-  def test_that_index_markdown_is_created
+  def test_that_index_markdown_is_created_in_source
     submitted = `bin/hyde new #{@file_path}`
 
     assert File.exists? File.expand_path(@file_path + '/source/index.markdown')
   end
 
-  def test_that_about_markdown_is_created
+  def test_that_about_markdown_is_created_in_source
     submitted = `bin/hyde new #{@file_path}`
 
     assert File.exists? File.expand_path(@file_path + '/source/pages/about.markdown')
   end
-  
-  def test_that_initial_post_markdown_is_created_with_timestamp
+
+  def test_that_initial_post_markdown_is_created_in_source_with_timestamp
     submitted = `bin/hyde new #{@file_path}`
     timestamp = Time.new.strftime('%Y-%m-%d') + '-'
 
     assert File.exists? File.expand_path(@file_path + '/source/posts/' + timestamp + 'welcome-to-hyde.markdown')
   end
 
+  def test_that_main_css_is_created_in_output
+    create = `bin/hyde new #{@file_path}`
+    build  = `bin/hyde build #{@file_path}`
 
-  # def test_that_it_generates_a_timestamp
-  #
-  # end
+    assert File.exists? File.expand_path(@file_path + '/_output/css/main.css')
+  end
+
+  def test_that_index_html_is_created_in_output
+    create = `bin/hyde new #{@file_path}`
+    build  = `bin/hyde build #{@file_path}`
+
+    assert File.exists? File.expand_path(@file_path + '/_output/index.html')
+  end
+
+  def test_that_about_html_is_created_in_output
+    create = `bin/hyde new #{@file_path}`
+    build  = `bin/hyde build #{@file_path}`
+
+    assert File.exists? File.expand_path(@file_path + '/_output/pages/about.html')
+  end
+
+  def test_that_post_html_is_created_in_output_with_timestamp
+    create    = `bin/hyde new #{@file_path}`
+    build     = `bin/hyde build #{@file_path}`
+    timestamp = Time.new.strftime('%Y-%m-%d') + '-'
+
+    assert File.exists? File.expand_path(@file_path + '/_output/posts/' + timestamp + 'welcome-to-hyde.html')
+  end
 
   # assert source is .md
   # assert _output is .html

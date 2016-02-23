@@ -28,7 +28,7 @@ class Hyde
   def timestamp_file(original)
     file_path   = path + '/source/posts/'
     orig_name   = file_path + original
-    timestamped = file_path + Time.new.to_s.split[0] + '-' + original
+    timestamped = file_path + Time.new.strftime('%Y-%m-%d') + '-' + original
     [orig_name, timestamped]
   end
 

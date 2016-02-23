@@ -3,11 +3,12 @@ require 'pry'
 require 'kramdown'
 
 class Hyde
-  attr_reader :action, :path
+  attr_reader :action, :path, :title
 
-  def initialize(action = ARGV[0], path = ARGV[1])
-    @action = action
-    @path   = path
+  def initialize
+    @action = ARGV[0]
+    @path   = ARGV[1]
+    @title  = ARGV[2..-1]
   end
 
   def clone(source, destination)
@@ -24,6 +25,8 @@ class Hyde
       build_new
     when 'build'
       build_output
+    when 'post'
+      build_post
     end
   end
 
@@ -53,6 +56,15 @@ class Hyde
     html = Kramdown::Document.new(markdown).to_html
     File.open(file_path, 'w') { |file| file.write(html) }
     File.rename(file_path, file_path.split('.')[0] + '.html')
+  end
+
+  def build_post
+    raise ArgumentError if title.nil?
+    post_directory = path + '/source/posts/'
+    timestamped_welcome = post_directory + Time.new.to_s.split[0] + '-' + title.join('-').downcase + '.markdown'
+    contents = "\##{title.join(" ")}\n\nYour content here"
+    File.open(timestamped_welcome, 'w') { |file| file.write(contents) }
+    puts "Created a new post file at #{timestamped_welcome}"
   end
 
 end

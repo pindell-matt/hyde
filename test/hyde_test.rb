@@ -4,14 +4,21 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
-# require_relative '../bin/hyde'
 
 
 class HydeTest < Minitest::Test
 
-  def test_args_contains_desired_action
+  def test_new_creates_directory
+    file_path = '~/hyde-test'
+    submitted = `bin/hyde new ~/hyde-test`
     # binding.pry
-    submitted = Hyde.new(build)
+    assert File.directory?(file_path)
   end
+
+  # assert source is .md
+  # assert _output is .html
+  # file exist?
+  # check content matches?
+  # post title matches .md and .html content
 
 end

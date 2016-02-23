@@ -18,13 +18,8 @@ class Hyde
   end
 
   def parse_submission
-    # timestamp = Time.new.to_s.split[0]
     if action == 'new'
       build_new
-      # raise ArgumentError if check_path(path)
-      # clone('bin/template/.', path)
-      # full_path_to_welcome = path + "/source/posts/"
-      # File.rename(full_path_to_welcome + 'welcome.markdown', full_path_to_welcome + timestamp + '-welcome-to-hyde.markdown')
     elsif action == 'build'
       build_output
     end
@@ -40,9 +35,10 @@ class Hyde
 
   def build_output
     FileUtils.cp_r(path + '/source/.', path + '/_output')
-    # Dir.glob('/path/to/dir/*.markdown') do |md_file|
-    #   # do work on files ending in .rb in the desired directory
-    # end
+    # Dir.glob(path + '/_output/*.markdown') do |md_file|
+    Dir.glob(path + '/_output' + '/**/*.markdown') do |md_file|
+      binding.pry
+    end
   end
 
     # Iterate through all the files and directories in the source directory

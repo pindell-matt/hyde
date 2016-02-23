@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'pry'
+require 'kramdown'
 
 class Hyde
   attr_reader :action, :path
@@ -35,17 +36,17 @@ class Hyde
 
   def build_output
     FileUtils.cp_r(path + '/source/.', path + '/_output')
-    # Dir.glob(path + '/_output/*.markdown') do |md_file|
     Dir.glob(path + '/_output' + '/**/*.markdown') do |md_file|
-      binding.pry
+      markdown_to_html(md_file)
     end
   end
 
-    # Iterate through all the files and directories in the source directory
-    # If an element is a Markdown file, convert it to html and copy it to the appropriate place inside of _output
-    # If an element is any other type of File, simply copy it to the appropriate place inside _output
-    # If an element is directory, create a matching subdirectory inside the _output directory, then repeat this process for any files or folders within it.
-
+  def markdown_to_html(file_path)
+    markdown = File.read(file_path)
+    html = Kramdown::Document.new(markdown).to_html
+    File.open(file_path, 'w') { |file| file.write(html) }
+    File.rename(file_path, file_path.split('.')[0] + '.html')
+  end
 
 end
 

@@ -29,10 +29,16 @@ class Hyde
 
   def build_new
     raise ArgumentError if check_path(path)
-    timestamp = Time.new.to_s.split[0]
     clone('bin/template/.', path)
-    full_path_to_welcome = path + "/source/posts/"
-    File.rename(full_path_to_welcome + 'welcome.markdown', full_path_to_welcome + timestamp + '-welcome-to-hyde.markdown')
+    orig_welcome, timestamped_welcome = parse_build_path
+    File.rename(orig_welcome, timestamped_welcome)
+  end
+
+  def parse_build_path
+    file_path           = path + '/source/posts/'
+    orig_welcome        = file_path + 'welcome.markdown'
+    timestamped_welcome = file_path + Time.new.to_s.split[0] + '-welcome-to-hyde.markdown'
+    [orig_welcome, timestamped_welcome]
   end
 
   def build_output

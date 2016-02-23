@@ -9,7 +9,7 @@ class Hyde
     @path   = path
   end
 
-  def new_project(path)
+  def clone_template(path)
     FileUtils.cp_r( 'bin/template/.', path)
   end
 
@@ -17,10 +17,13 @@ class Hyde
     Dir.exist?(path)
   end
 
-  def create_skeleton
+  def parse_submission
     raise ArgumentError if check_path(path)
+    timestamp = Time.new.to_s.split[0]
     if action == 'new'
-      new_project(path)
+      clone_template(path)
+      full_path_to_welcome = path + "/source/posts/"
+      File.rename(full_path_to_welcome + 'welcome.markdown', full_path_to_welcome + timestamp + '-welcome-to-hyde.markdown')
     end
   end
 
@@ -29,6 +32,6 @@ end
 
 if __FILE__ == $0
 
-  Hyde.new.create_skeleton
+  Hyde.new.parse_submission
 
 end

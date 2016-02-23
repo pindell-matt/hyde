@@ -9,7 +9,6 @@ class HydeTest < Minitest::Test
 
   def test_args_contains_desired_action
 
-
   end
 
 end

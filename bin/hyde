@@ -33,15 +33,15 @@ class Hyde
   def build_new
     raise ArgumentError if check_path(path)
     clone('bin/template/.', path)
-    orig_welcome, timestamped_welcome = parse_build_path
+    orig_welcome, timestamped_welcome = timestamp_file('welcome-to-hyde.markdown')
     File.rename(orig_welcome, timestamped_welcome)
   end
 
-  def parse_build_path
-    file_path           = path + '/source/posts/'
-    orig_welcome        = file_path + 'welcome.markdown'
-    timestamped_welcome = file_path + Time.new.to_s.split[0] + '-welcome-to-hyde.markdown'
-    [orig_welcome, timestamped_welcome]
+  def timestamp_file(original)
+    file_path   = path + '/source/posts/'
+    orig_name   = file_path + original
+    timestamped = file_path + Time.new.to_s.split[0] + '-' + original
+    [orig_name, timestamped]
   end
 
   def build_output
@@ -60,11 +60,10 @@ class Hyde
 
   def build_post
     raise ArgumentError if title.nil?
-    post_directory = path + '/source/posts/'
-    timestamped_welcome = post_directory + Time.new.to_s.split[0] + '-' + title.join('-').downcase + '.markdown'
+    timestamp = timestamp_file(title.join('-').downcase + '.markdown')
     contents = "\##{title.join(" ")}\n\nYour content here"
-    File.open(timestamped_welcome, 'w') { |file| file.write(contents) }
-    puts "Created a new post file at #{timestamped_welcome}"
+    File.open(timestamp.last, 'w') { |file| file.write(contents) }
+    puts "Created a new post file at #{timestamp.last}"
   end
 
 end

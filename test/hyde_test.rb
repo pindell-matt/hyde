@@ -104,11 +104,29 @@ class HydeTest < Minitest::Test
     build     = `bin/hyde build #{@file_path}`
     file_name = Time.new.strftime('%Y-%m-%d') + '-' + post_name.gsub(' ', '-') + '.html'
 
+    expected = "<html>\n  <head><title>Our Site</title></head>\n
+      <body>\n    <h1 id=\"default-formatted-post\">Default Formatted Post</h1>\n
+      \n<p>Your content here</p>\n\n  </body>\n</html>\n"
+    actual = File.read File.expand_path(@file_path + '/_output/posts/' + file_name)
+
+    assert_equal expected.scan(/\S/).join, actual.scan(/\S/).join
+  end
+
+  def test_listen
+    skip
+    a_post    = "Initial Post"
+    create    = `bin/hyde new #{@file_path}`
+    listen    = `bin/hyde watchfs #{@file_path}`
+    post      = `bin/hyde post #{@file_path} #{post_name}`
+    file_name = Time.new.strftime('%Y-%m-%d') + '-' + post_name.gsub(' ', '-') + '.html'
+
     expected = "<body><div class='navbar'></div>
-    <h1 id=\"default-formatted-post\">Default Formatted Post</h1>
+    <h1 id=\"initial-post\">Initial Post</h1>
     <p>Your content here</p><div class='footer'></div></body>\n"
     actual = File.read File.expand_path(@file_path + '/_output/posts/' + file_name)
 
     assert_equal expected.scan(/\S/).join, actual.scan(/\S/).join
   end
+
+
 end

@@ -60,7 +60,6 @@ class Hyde
   end
 
   def sass_to_css(file)
-    # binding.pry
     sass = File.read(file)
     sass_engine = Sass::Engine.new(sass)
 

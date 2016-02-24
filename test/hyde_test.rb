@@ -80,7 +80,8 @@ class HydeTest < Minitest::Test
     post_name = "Long Post Name"
     create    = `bin/hyde new #{@file_path}`
     post      = `bin/hyde post #{@file_path} #{post_name}`
-    file_name = Time.new.strftime('%Y-%m-%d') + '-' + post_name.gsub(' ', '-') + '.markdown'
+    timestamp = Time.new.strftime('%Y-%m-%d') + '-'
+    file_name = timestamp + post_name.gsub(' ', '-') + '.markdown'
 
     assert File.exists? File.expand_path(@file_path + '/source/posts/' + file_name)
   end

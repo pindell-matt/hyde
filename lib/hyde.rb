@@ -42,11 +42,8 @@ class Hyde
   def file_converter
     Dir.glob(path + "/_output" + "/**/*.*") do |file|
       filetype = file.split(".")[1]
-      if filetype == "markdown"
-        markdown_to_html(file)
-      elsif filetype == "sass"
-        sass_to_css(file)
-      end
+      markdown_to_html(file) if filetype == "markdown"
+      sass_to_css(file) if filetype == "sass"
     end
   end
 

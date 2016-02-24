@@ -36,14 +36,17 @@ class Hyde
 
   def build_output
     FileUtils.cp_r(path + '/source/.', path + '/_output')
-    file_converter('markdown')
-    file_converter('sass')
-
+    file_converter
   end
 
-  def file_converter(filetype)
-    Dir.glob(path + "/_output" + "/**/*.#{filetype}") do |file|
-      filetype == "markdown" ? markdown_to_html(file) : sass_to_css(file)
+  def file_converter
+    Dir.glob(path + "/_output" + "/**/*.*") do |file|
+      filetype = file.split(".")[1]
+      if filetype == "markdown"
+        markdown_to_html(file)
+      elsif filetype == "sass"
+        sass_to_css(file)
+      end
     end
   end
 

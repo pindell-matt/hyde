@@ -26,3 +26,9 @@ class ParseRequest
   end
 
 end
+
+if __FILE__ == $0
+
+  ParseRequest.new('watchfs', File.expand_path(Dir.pwd + '../test/test-support'), ["Initial", "Post"]).parse_submission
+
+end

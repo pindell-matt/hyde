@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/hyde'
+require 'listen'
 
 class Parse
   attr_reader :action
@@ -20,8 +21,20 @@ class Parse
       hyde.build_output
     when 'post'
       hyde.build_post
+    when 'watchfs'
+      event_watcher(hyde)
     end
   end
+
+  def event_watcher(hyde)
+    listener = Listen.to(@path) do |modified, added, removed|
+      hyde.build_output
+    end
+
+    listener.start
+    sleep
+  end
+  
 end
 
 if __FILE__ == $0

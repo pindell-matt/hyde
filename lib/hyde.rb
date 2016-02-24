@@ -6,7 +6,7 @@ require 'sass'
 class Hyde
   attr_reader :action, :path, :title
 
-  def initialize(action, path, title = nil)
+  def initialize(action, path, title)
     @action = action
     @path   = path
     @title  = title

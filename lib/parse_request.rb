@@ -1,9 +1,8 @@
 require_relative 'hyde'
-# require_relative 'event_watcher'
-require 'listen'
+require_relative 'event_watcher'
 
 class ParseRequest
-  # include EventWatcher
+  include EventWatcher
   attr_reader :action, :path, :title
 
   def initialize(action, path, title)
@@ -22,18 +21,8 @@ class ParseRequest
     when 'post'
       hyde.build_post
     when 'watchfs'
-      # watch(hyde, path)
-      event_watcher(hyde)
+      watch(hyde, path)
     end
-  end
-
-  def event_watcher(hyde)
-    listener = Listen.to(path) do |modified, added, removed|
-      hyde.build_output
-    end
-
-    listener.start
-    sleep
   end
 
 end

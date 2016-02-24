@@ -81,7 +81,7 @@ class HydeTest < Minitest::Test
     create    = `bin/hyde new #{@file_path}`
     post      = `bin/hyde post #{@file_path} #{post_name}`
     time      = Time.new.strftime('%Y-%m-%d') + '-'
-    file_name = time + post_name.gsub!(' ', '-') + '.markdown'
+    file_name = time + post_name.split.join('-') + '.markdown'
 
     assert File.exists? File.expand_path(@file_path + '/source/posts/' + file_name)
   end
@@ -91,7 +91,8 @@ class HydeTest < Minitest::Test
     create    = `bin/hyde new #{@file_path}`
     post      = `bin/hyde post #{@file_path} #{post_name}`
     build     = `bin/hyde build #{@file_path}`
-    file_name = Time.new.strftime('%Y-%m-%d') + '-' + post_name.gsub(' ', '-') + '.html'
+    time      = Time.new.strftime('%Y-%m-%d') + '-'
+    file_name = time + post_name.gsub!(' ', '-') + '.html'
 
     assert File.exists? File.expand_path(@file_path + '/_output/posts/' + file_name)
   end

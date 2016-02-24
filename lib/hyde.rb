@@ -1,6 +1,7 @@
 require 'pry'
 require 'kramdown'
 require 'erb'
+require 'sass'
 
 class Hyde
   attr_reader :action, :path, :title
@@ -35,16 +36,36 @@ class Hyde
 
   def build_output
     FileUtils.cp_r(path + '/source/.', path + '/_output')
+    find_and_convert_markdown
+    find_and_convert_sass
+  end
+
+  def find_and_convert_markdown
     Dir.glob(path + '/_output' + '/**/*.markdown') do |md_file|
       markdown_to_html(md_file)
     end
   end
 
-  def markdown_to_html(file_path)
-    markdown = File.read(file_path)
+  def find_and_convert_sass
+    Dir.glob(path + '/_output' + '/**/*.sass') do |sass_file|
+      sass_to_css(sass_file)
+    end
+  end
+
+  def markdown_to_html(file)
+    markdown = File.read(file)
     formatted_html = default_html_format(markdown)
-    File.open(file_path, 'w') { |file| file.write(formatted_html) }
-    File.rename(file_path, file_path.split('.')[0] + '.html')
+    File.open(file, 'w') { |file| file.write(formatted_html) }
+    File.rename(file, file.split('.')[0] + '.html')
+  end
+
+  def sass_to_css(file)
+    # binding.pry
+    sass = File.read(file)
+    sass_engine = Sass::Engine.new(sass)
+
+    File.open(file, 'w') { |file| file.write(sass_engine.render) }
+    File.rename(file, file.split('.')[0] + '.css')
   end
 
   def default_html_format(markdown)

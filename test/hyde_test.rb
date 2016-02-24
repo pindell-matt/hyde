@@ -128,5 +128,12 @@ class HydeTest < Minitest::Test
     assert_equal expected.scan(/\S/).join, actual.scan(/\S/).join
   end
 
+  def test_convert_sass_to_css
+    create = `bin/hyde new #{@file_path}`
+    build  = `bin/hyde build #{@file_path}`
+
+    assert File.exists? File.expand_path(@file_path + '/_output/css/test.css')
+  end
+
 
 end

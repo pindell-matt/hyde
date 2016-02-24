@@ -8,8 +8,17 @@ require 'pry'
 class HydeTest < Minitest::Test
 
   def setup
-    @file_path = File.expand_path('~/hyde-test')
+    @working_directory = Dir.pwd
+    @file_path = File.expand_path(@working_directory + '/test/test-support')
     FileUtils.rm_r(@file_path) if File.exists? @file_path
+  end
+
+  def listen
+    working_directory = Dir.pwd
+    `osascript -e 'tell app "Terminal"
+    do script "cd #{working_directory + "/"}"
+    do script "bin/hyde watchfs #{@file_path}"
+    end tell'`
   end
 
   def test_new_creates_directory
@@ -113,16 +122,16 @@ class HydeTest < Minitest::Test
   end
 
   def test_listen
-    skip
+    # skip
     a_post    = "Initial Post"
     create    = `bin/hyde new #{@file_path}`
-    listen    = `bin/hyde watchfs #{@file_path}`
-    post      = `bin/hyde post #{@file_path} #{post_name}`
-    file_name = Time.new.strftime('%Y-%m-%d') + '-' + post_name.gsub(' ', '-') + '.html'
+    listen
+    post      = `bin/hyde post #{@file_path} #{a_post}`
+    file_name = Time.new.strftime('%Y-%m-%d') + '-' + a_post.gsub(' ', '-') + '.html'
 
-    expected = "<body><div class='navbar'></div>
-    <h1 id=\"initial-post\">Initial Post</h1>
-    <p>Your content here</p><div class='footer'></div></body>\n"
+    expected = "<html>\n  <head><title>Our Site</title></head>\n
+      <body>\n    <h1 id=\"initial-post\">Initial Post</h1>\n
+      \n<p>Your content here</p>\n\n  </body>\n</html>\n"
     actual = File.read File.expand_path(@file_path + '/_output/posts/' + file_name)
 
     assert_equal expected.scan(/\S/).join, actual.scan(/\S/).join

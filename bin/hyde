@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/hyde'
-require 'listen'
+require './lib/parse_request'
+require 'pry'
 
-class Parse
-  attr_reader :action
+class HydeRunner
 
   def initialize
     @action = ARGV[0]
@@ -12,33 +11,15 @@ class Parse
     @title  = ARGV[2..-1]
   end
 
-  def parse_submission
-    hyde = Hyde.new(@action, @path, @title)
-    case action
-    when 'new'
-      hyde.build_new
-    when 'build'
-      hyde.build_output
-    when 'post'
-      hyde.build_post
-    when 'watchfs'
-      event_watcher(hyde)
-    end
+  def run_hyde
+    ParseRequest.new(ARGV[0], ARGV[1], ARGV[2..-1]).parse_submission
   end
 
-  def event_watcher(hyde)
-    listener = Listen.to(@path) do |modified, added, removed|
-      hyde.build_output
-    end
-
-    listener.start
-    sleep
-  end
-  
 end
 
 if __FILE__ == $0
 
-  Parse.new.parse_submission
+  hyde = HydeRunner.new
+  hyde.run_hyde
 
 end

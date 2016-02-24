@@ -49,12 +49,12 @@ class Hyde
 
   def markdown_to_html(file)
     markdown = File.read(file)
-    formatted_html = default_html_format(markdown)
-    File.open(file, 'w') { |file| file.write(formatted_html) }
+    html = generate_html(markdown)
+    File.open(file, 'w') { |file| file.write(html) }
     File.rename(file, file.split('.')[0] + '.html')
   end
 
-  def default_html_format(markdown)
+  def generate_html(markdown)
     html = Kramdown::Document.new(markdown).to_html
     template = File.read(path + '/source/layouts/default.html.erb')
     ERB.new(template).result(binding)

@@ -1,10 +1,5 @@
-# $LOAD_PATH.unshift(File.dirname(__FILE__))
-
-lib_folder = File.expand_path(__dir__)
-$LOAD_PATH << lib_folder
-
-# require 'simplecov'
-# SimpleCov.start
+require 'simplecov'
+SimpleCov.start
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
@@ -114,11 +109,4 @@ class HydeTest < Minitest::Test
 
     assert_equal expected.scan(/\S/).join, actual.scan(/\S/).join
   end
-
-  # file name matches ARGS
-  # .md file has title content
-
-  # check content matches?
-  # post title matches .md and .html content
-
 end

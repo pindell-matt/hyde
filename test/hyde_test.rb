@@ -135,5 +135,11 @@ class HydeTest < Minitest::Test
     assert File.exists? File.expand_path(@file_path + '/_output/css/test.css')
   end
 
+  def test_move_images_and_other_non_template_files
+    create = `bin/hyde new #{@file_path}`
+    FileUtils.cp('./test/test_content/turing.jpg', @file_path + '/source/')
+    build  = `bin/hyde build #{@file_path}`
 
+    assert File.exists? File.expand_path(@file_path + '/_output/turing.jpg')
+  end
 end

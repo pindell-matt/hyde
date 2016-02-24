@@ -22,7 +22,7 @@ class Hyde
 
   def build_new
     raise ArgumentError if check_path(path)
-    clone('bin/template/.', path)
+    clone('lib/template/.', path)
     orig_welcome, timestamped_welcome = timestamp_file('welcome-to-hyde.markdown')
     File.rename(orig_welcome, timestamped_welcome)
   end

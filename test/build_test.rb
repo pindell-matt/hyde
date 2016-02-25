@@ -8,29 +8,30 @@ require_relative '../lib/generate_new'
 require_relative '../lib/build'
 
 class BuildTest < Minitest::Test
-  attr_reader :file_path
+  attr_reader :build_path, :test_path
 
   def setup
     @working_directory = Dir.pwd
-    @file_path = File.expand_path(@working_directory + '/test/test_content/building')
-    FileUtils.rm_r(file_path) if File.exists? (file_path)
+    @build_path = File.expand_path(@working_directory + '/test/test_content/building')
+    @test_path = File.expand_path(@working_directory + '/test/test_content/test_dir')
+    FileUtils.rm_r(build_path) if File.exists? (build_path)
   end
 
   def test_build_can_be_initialized
-    built = Build.new(file_path)
+    built = Build.new(build_path)
 
     assert_kind_of Build, built
   end
 
   def test_build_has_a_path_ivar
-    built = Build.new(file_path)
+    built = Build.new(build_path)
 
-    assert_equal file_path, built.path
+    assert_equal build_path, built.path
   end
 
   def test_build_can_find_all_css
-    new_hyde = GenerateNew.new(file_path).build_new
-    built    = Build.new(file_path)
+    new_hyde = GenerateNew.new(build_path).build_new
+    built    = Build.new(build_path)
     built.build_output
 
     submitted = built.find_all_css.count
@@ -40,11 +41,11 @@ class BuildTest < Minitest::Test
   end
 
   def test_build_finds_relative_path_to_css
-    new_hyde = GenerateNew.new(file_path).build_new
-    built    = Build.new(file_path)
+    new_hyde = GenerateNew.new(build_path).build_new
+    built    = Build.new(build_path)
     built.build_output
 
-    submitted = built.relative_path_to_css(file_path + '/index.html')
+    submitted = built.relative_path_to_css(build_path + '/index.html')
     expected  = ["./_output/css/main.css", "./_output/css/test.css"]
 
     assert_equal expected, submitted
@@ -52,15 +53,18 @@ class BuildTest < Minitest::Test
   end
 
   def test_build_generates_html
-    skip
-    new_hyde = GenerateNew.new(file_path).build_new
-    built    = Build.new(file_path)
-    markdown = "# Heading **Test**"
-    # built.build_output
-    # binding.pry
+    new_hyde = GenerateNew.new(build_path).build_new
+    built    = Build.new(build_path)
+    path     = test_path + '/placeholder.md'
+    markdown = File.read(path)
+    
+    submitted = built.generate_html(markdown, path)
+    expected  = "<html>\n  <head>\n    \n
+    <title>Our Site</title>\n  </head>\n  <body>\n
+    <h1 id=\"so-git-acknowledges-folder\">So Git Acknowledges Folder!</h1>
+    \n\n  </body>\n</html>\n"
 
-    submitted = built.generate_html(markdown, )
-
+    assert_equal expected.scan(/\S/).join, submitted.scan(/\S/).join
   end
 
 end

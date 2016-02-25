@@ -4,8 +4,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
 
-require_relative '../lib/event_watcher'
-require_relative '../lib/hyde'
 require_relative '../lib/parse_request'
 
 class HydeIntegrationsTest < Minitest::Test

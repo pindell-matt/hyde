@@ -34,12 +34,4 @@ class ParseRequestTest < Minitest::Test
     end
   end
 
-  def test_parse_request_raises_arg_error_if_directory_already_exists
-    submitted = ParseRequest.new('new', @file_path, 'title').parse_submission
-    assert_raises ArgumentError do
-      ParseRequest.new('invalid', @file_path, 'title').parse_submission
-    end
-  end
-
-
 end

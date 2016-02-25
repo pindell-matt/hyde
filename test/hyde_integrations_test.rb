@@ -8,7 +8,7 @@ require_relative '../lib/event_watcher'
 require_relative '../lib/hyde'
 require_relative '../lib/parse_request'
 
-class HydeTest < Minitest::Test
+class HydeIntegrationsTest < Minitest::Test
 
   def setup
     @working_directory = Dir.pwd

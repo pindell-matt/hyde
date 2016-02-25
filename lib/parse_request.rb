@@ -22,13 +22,9 @@ class ParseRequest
       hyde.build_post
     when 'watchfs'
       watch(hyde, path)
+    else
+      puts "Please enter a valid action: new, build, post, or watchfs."
     end
   end
-
-end
-
-if __FILE__ == $0
-
-  ParseRequest.new('watchfs', File.expand_path(Dir.pwd + '../test/test-support'), ["Initial", "Post"]).parse_submission
 
 end

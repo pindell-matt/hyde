@@ -3,23 +3,24 @@
 require './lib/parse_request'
 require 'pry'
 
-class HydeRunner
+class Hyde
+  attr_reader :action, :path, :title
 
-  def initialize
-    @action = ARGV[0]
-    @path   = ARGV[1]
-    @title  = ARGV[2..-1]
+  def initialize(action = ARGV[0], path = ARGV[1], title = ARGV[2..-1])
+    @action = action
+    @path   = path
+    @title  = title
   end
 
-  def run_hyde
-    ParseRequest.new(@action, @path, @title).parse_submission
+  def run
+    ParseRequest.new(action, path, title).parse_submission
   end
 
 end
 
 if __FILE__ == $0
 
-  hyde = HydeRunner.new
-  hyde.run_hyde
+  hyde = Hyde.new
+  hyde.run
 
 end

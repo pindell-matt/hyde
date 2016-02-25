@@ -57,7 +57,7 @@ class BuildTest < Minitest::Test
     built    = Build.new(build_path)
     path     = test_path + '/placeholder.md'
     markdown = File.read(path)
-    
+
     submitted = built.generate_html(markdown, path)
     expected  = "<html>\n  <head>\n    \n
     <title>Our Site</title>\n  </head>\n  <body>\n
@@ -65,6 +65,18 @@ class BuildTest < Minitest::Test
     \n\n  </body>\n</html>\n"
 
     assert_equal expected.scan(/\S/).join, submitted.scan(/\S/).join
+  end
+
+  def test_builds_output
+    new_hyde = GenerateNew.new(build_path).build_new
+    built    = Build.new(build_path)
+    built.build_output
+
+    assert File.exists? File.expand_path(build_path + '/_output/css/main.css')
+    assert File.exists? File.expand_path(build_path + '/_output/css/test.css')
+    assert File.exists? File.expand_path(build_path + '/_output/index.html')
+    assert File.exists? File.expand_path(build_path + '/_output/layouts/default.html.erb')
+    assert File.exists? File.expand_path(build_path + '/_output/pages/about.html')
   end
 
 end

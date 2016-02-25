@@ -3,6 +3,7 @@ require 'kramdown'
 require 'erb'
 require 'sass'
 require 'pathname'
+require 'haml'
 
 class Build
   attr_reader :path
@@ -21,7 +22,7 @@ class Build
       filetype = file.split(".")[1]
       markdown_to_html(file) if filetype == "markdown"
       sass_to_css(file) if filetype == "sass"
-      
+
       haml_to_html(file) if filetype == "haml"
     end
   end
@@ -57,6 +58,10 @@ class Build
     sass_engine = Sass::Engine.new(sass)
     File.open(file, 'w') { |file| file.write(sass_engine.render) }
     File.rename(file, file.split('.')[0] + '.css')
+  end
+
+  def haml_to_html(file)
+    # haml document.haml
   end
 
 end

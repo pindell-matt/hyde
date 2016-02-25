@@ -166,4 +166,12 @@ class HydeIntegrationsTest < Minitest::Test
 
     assert File.exists? File.expand_path(@file_path + '/_output/turing.jpg')
   end
+
+  def test_convert_haml_to_html
+    # skip
+    create = `bin/hyde new #{@file_path}`
+    build  = `bin/hyde build #{@file_path}`
+
+    assert File.exists? File.expand_path(@file_path + '/_output/layouts/standard.html')
+  end
 end

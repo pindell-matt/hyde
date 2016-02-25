@@ -51,23 +51,16 @@ class BuildTest < Minitest::Test
     assert_kind_of Array, submitted
   end
 
-  # def test_clone_can_duplicate_directory
-  #   gen = GenerateNew.new(file_path)
-  #   gen.clone(file_path + "/test_dir", file_path + '/success')
-  #
-  #   assert File.exists?(file_path + '/success')
-  #   FileUtils.rm_r(file_path + '/success') if File.exists? (file_path + '/success')
-  # end
-  #
-  # def test_can_confirm_directory_exists
-  #   gen = GenerateNew.new(file_path)
-  #   assert gen.check_path(file_path)
-  # end
-  #
-  # def test_raises_arg_error_if_directory_already_exists
-  #   assert_raises ArgumentError do
-  #     GenerateNew.new(file_path).build_new
-  #   end
-  # end
+  def test_build_generates_html
+    skip
+    new_hyde = GenerateNew.new(file_path).build_new
+    built    = Build.new(file_path)
+    markdown = "# Heading **Test**"
+    # built.build_output
+    # binding.pry
+
+    submitted = built.generate_html(markdown, )
+
+  end
 
 end

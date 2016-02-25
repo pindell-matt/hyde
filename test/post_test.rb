@@ -17,12 +17,12 @@ class PostTest < Minitest::Test
     FileUtils.rm_r(build_path) if File.exists? (build_path)
   end
 
-  def test_post_can_build_post
+  def test_post_can_build
     name = "Test"
     hyde = GenerateNew.new(build_path)
-    hyde.build_new
+    hyde.build
 
-    post = Post.new(build_path, [name]).build_post
+    post = Post.new(build_path, [name]).build
     time = Time.new.strftime('%Y-%m-%d') + '-' + name
 
     assert File.exists? File.expand_path(build_path + "/source/posts/#{time}.markdown")

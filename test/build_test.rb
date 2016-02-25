@@ -30,9 +30,9 @@ class BuildTest < Minitest::Test
   end
 
   def test_build_can_find_all_css
-    new_hyde = GenerateNew.new(build_path).build_new
+    new_hyde = GenerateNew.new(build_path).build
     built    = Build.new(build_path)
-    built.build_output
+    built.build
 
     submitted = built.find_all_css.count
     expected  = 2
@@ -41,9 +41,9 @@ class BuildTest < Minitest::Test
   end
 
   def test_build_finds_relative_path_to_css
-    new_hyde = GenerateNew.new(build_path).build_new
+    new_hyde = GenerateNew.new(build_path).build
     built    = Build.new(build_path)
-    built.build_output
+    built.build
 
     submitted = built.relative_path_to_css(build_path + '/index.html')
     expected  = ["./_output/css/main.css", "./_output/css/test.css"]
@@ -53,7 +53,7 @@ class BuildTest < Minitest::Test
   end
 
   def test_build_generates_html
-    new_hyde = GenerateNew.new(build_path).build_new
+    new_hyde = GenerateNew.new(build_path).build
     built    = Build.new(build_path)
     path     = test_path + '/placeholder.md'
     markdown = File.read(path)
@@ -68,9 +68,9 @@ class BuildTest < Minitest::Test
   end
 
   def test_builds_output
-    new_hyde = GenerateNew.new(build_path).build_new
+    new_hyde = GenerateNew.new(build_path).build
     built    = Build.new(build_path)
-    built.build_output
+    built.build
 
     assert File.exists? File.expand_path(build_path + '/_output/css/main.css')
     assert File.exists? File.expand_path(build_path + '/_output/css/test.css')

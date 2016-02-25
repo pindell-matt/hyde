@@ -13,20 +13,20 @@ class ParseRequest
     @action = action
     @path   = path
     @title  = title
+    @error_message = "Enter a valid action: new, build, post, or watchfs."
+  end
+
+  def parse_map
+    {'new' => GenerateNew, 'build' => Build, 'post' => Post}
   end
 
   def parse_submission
-    case action
-    when 'new'
-      GenerateNew.new(path).build_new
-    when 'build'
-      Build.new(path).build_output
-    when 'post'
-      Post.new(path, title).build_post
-    when 'watchfs'
-      watch(path)
+    watch(path) if action == 'watchfs'
+    raise ArgumentError, @error_message unless parse_map.has_key?(action)
+    if action == "post"
+      parse_map[action].new(path, title).build
     else
-      raise ArgumentError, "Please enter a valid action: new, build, post, or watchfs."
+      parse_map[action].new(path).build
     end
   end
 

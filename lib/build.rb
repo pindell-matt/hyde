@@ -12,7 +12,7 @@ class Build
     @path = path
   end
 
-  def build_output
+  def build
     FileUtils.cp_r(path + '/source/.', path + '/_output')
     file_converter
   end
@@ -22,7 +22,6 @@ class Build
       filetype = file.split(".")[1]
       markdown_to_html(file) if filetype == "markdown"
       sass_to_css(file) if filetype == "sass"
-
       haml_to_html(file) if filetype == "haml"
     end
   end
@@ -69,7 +68,11 @@ class Build
   end
 
   def haml_to_html(file)
-    # haml document.haml
+    haml = File.read(file)
+    haml_engine = Haml::Engine.new(haml)
+    output = haml_engine.render
+    File.open(file, 'w') { |file| file.write(output) }
+    File.rename(file, file.split('.')[0] + '.html')
   end
 
 end

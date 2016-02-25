@@ -10,7 +10,7 @@ class Post
     @title  = title
   end
 
-  def build_post
+  def build
     raise ArgumentError, 'Please enter a title for your post.' if title.nil?
     timestamp = timestamp_file(title.join('-').downcase + '.markdown', path)
     contents = "\##{title.join(" ")}\n\nYour content here"

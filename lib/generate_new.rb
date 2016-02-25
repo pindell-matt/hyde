@@ -9,7 +9,7 @@ class GenerateNew
     @path = path
   end
 
-  def build_new
+  def build
     raise ArgumentError, 'Directory already exists!' if check_path(path)
     clone('lib/template/.', path)
     orig_welcome, timestamped_welcome = timestamp_file('welcome-to-hyde.markdown', path)

@@ -41,7 +41,7 @@ class GenerateNewTest < Minitest::Test
 
   def test_raises_arg_error_if_directory_already_exists
     assert_raises ArgumentError do
-      GenerateNew.new(file_path).build_new
+      GenerateNew.new(file_path).build
     end
   end
 

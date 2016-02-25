@@ -35,22 +35,30 @@ class Build
   end
 
   def generate_html(markdown, file)
-    path_to_css = relative_path_to_main_css(file)
+    css_paths = relative_path_to_css(file)
     html = Kramdown::Document.new(markdown).to_html
     template = File.read(path + '/source/layouts/default.html.erb')
     ERB.new(template).result(binding)
   end
 
-  def find_desired_css(filename)
-    Dir.glob(path + "/_output" + "/**/#{filename}.css") do |file|
-      return file
-    end
+  def relative_path_to_css(submitted)
+    path_to_submitted = Pathname.new(submitted)
+    find_relative_paths(find_all_css, path_to_submitted)
   end
 
-  def relative_path_to_main_css(submitted)
-    css = Pathname.new(find_desired_css('main'))
-    path_to_submitted = Pathname.new(submitted)
-    relative_path = css.relative_path_from(path_to_submitted).to_s[1..-1]
+  def find_all_css
+    css_array = []
+    Dir.glob(path + "/_output" + "/**/*.css") do |file|
+      css_array << file
+    end
+    css_array
+  end
+
+  def find_relative_paths(files_array, path_to_submitted)
+    full_paths = files_array.map { |file| Pathname.new(file) }
+    relative_paths = full_paths.map do |full_path|
+      full_path.relative_path_from(path_to_submitted).to_s[1..-1]
+    end
   end
 
   def sass_to_css(file)

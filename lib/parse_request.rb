@@ -1,5 +1,9 @@
-require_relative 'hyde'
+# require_relative 'hyde'
+# Load Path?
 require_relative 'event_watcher'
+require_relative 'generate_new'
+require_relative 'build'
+require_relative 'post'
 
 class ParseRequest
   include EventWatcher
@@ -12,16 +16,15 @@ class ParseRequest
   end
 
   def parse_submission
-    hyde = Hyde.new(action, path, title)
     case action
     when 'new'
-      hyde.build_new
+      GenerateNew.new(path).build_new
     when 'build'
-      hyde.build_output
+      Build.new(path).build_output
     when 'post'
-      hyde.build_post
+      Post.new(path, title).build_post
     when 'watchfs'
-      watch(hyde, path)
+      watch(path)
     else
       puts "Please enter a valid action: new, build, post, or watchfs."
     end

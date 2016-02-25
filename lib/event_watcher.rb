@@ -2,9 +2,9 @@ require 'listen'
 
 module EventWatcher
 
-  def watch(hyde, path)
+  def watch(path)
     listener = Listen.to(path) do |modified, added, removed|
-      hyde.build_output
+      Build.new(path).build_output
     end
 
     listener.start

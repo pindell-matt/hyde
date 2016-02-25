@@ -1,6 +1,7 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="<%= path_to_css%>">
+    <% css_paths.each do |path| %>
+    <link rel="stylesheet" type="text/css" href="<%= path %>"><% end %>
     <title>Our Site</title>
   </head>
   <body>

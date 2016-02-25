@@ -42,7 +42,7 @@ class Build
 
   def relative_path_to_css(submitted)
     path_to_submitted = Pathname.new(submitted)
-    relative_paths = find_relative_paths(find_all_css, path_to_submitted)
+    find_relative_paths(find_all_css, path_to_submitted)
   end
 
   def find_all_css

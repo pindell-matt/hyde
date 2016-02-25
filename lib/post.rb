@@ -14,12 +14,10 @@ class Post
     raise ArgumentError, 'Please enter a title for your post.' if title.nil?
     timestamp = timestamp_file(title.join('-').downcase + '.markdown', path)
     contents = "\##{title.join(" ")}\n\nYour content here"
-    File.open(timestamp.last, 'w') { |file| file.write(contents) }
-    puts "Created a new post file at #{timestamp.last}"
-    # open_timestamp
+    add_timestamp_to_file(timestamp, contents)
   end
 
-  def open_timestamp
+  def add_timestamp_to_file(timestamp, contents)
     File.open(timestamp.last, 'w') { |file| file.write(contents) }
     puts "Created a new post file at #{timestamp.last}"
   end

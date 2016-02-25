@@ -8,3 +8,6 @@ gem "mrspec"
 gem "listen"
 gem "sass"
 gem "haml"
+gem 'cane'
+gem 'reek'
+gem 'rake'

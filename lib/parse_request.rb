@@ -26,7 +26,7 @@ class ParseRequest
     when 'watchfs'
       watch(path)
     else
-      puts "Please enter a valid action: new, build, post, or watchfs."
+      raise ArgumentError, "Please enter a valid action: new, build, post, or watchfs."
     end
   end
 

@@ -21,6 +21,8 @@ class Build
       filetype = file.split(".")[1]
       markdown_to_html(file) if filetype == "markdown"
       sass_to_css(file) if filetype == "sass"
+      
+      haml_to_html(file) if filetype == "haml"
     end
   end
 

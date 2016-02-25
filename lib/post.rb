@@ -16,6 +16,12 @@ class Post
     contents = "\##{title.join(" ")}\n\nYour content here"
     File.open(timestamp.last, 'w') { |file| file.write(contents) }
     puts "Created a new post file at #{timestamp.last}"
+    # open_timestamp
+  end
+
+  def open_timestamp
+    File.open(timestamp.last, 'w') { |file| file.write(contents) }
+    puts "Created a new post file at #{timestamp.last}"
   end
 
 end

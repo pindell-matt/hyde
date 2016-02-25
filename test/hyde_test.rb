@@ -136,17 +136,18 @@ class HydeTest < Minitest::Test
   end
 
   def test_listen_watches_file_system
-    # # skip
-    a_post    = "Initial Post"
-    create = `bin/hyde new #{@file_path}`
-    listen
-    sleep(1)
-    post   = `bin/hyde post #{@file_path} #{a_post}`
+    # skip
+    a_post  = "Initial Post"
+    create  = `bin/hyde new #{@file_path}`
+    watchfs = listen
+    pause   = sleep(1)
+    post    = `bin/hyde post #{@file_path} #{a_post}`
 
     file_name = Time.new.strftime('%Y-%m-%d') + '-' + a_post.gsub(' ', '-') + '.html'
-    expected = "<html>\n  <head><title>Our Site</title></head>\n  <body>\n    <h1 id=\"initial-post\">Initial Post</h1>\n\n<p>Your content here</p>\n\n  </body>\n</html>\n"
-    sleep(1)
-    actual = File.read File.expand_path(@file_path + '/_output/posts/' + file_name)
+    expected  = "<html>\n  <head><title>Our Site</title></head>\n
+    <body>\n    <h1 id=\"initial-post\">Initial Post</h1>\n\n<p>Your content here</p>\n\n  </body>\n</html>\n"
+    pause     = sleep(1)
+    actual    = File.read File.expand_path(@file_path + '/_output/posts/' + file_name)
 
     assert_equal expected.scan(/\S/).join, actual.scan(/\S/).join
   end

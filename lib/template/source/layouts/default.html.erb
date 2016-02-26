@@ -2,7 +2,8 @@
   <head>
     <% css_paths.each do |path| %>
     <link rel="stylesheet" type="text/css" href="<%= path %>"><% end %>
-    <title>Our Site</title>
+    <title>Our Site <% if frontmatter.has_key?(:title) %>- <%=frontmatter[:title]%><% end %>
+    </title>
   </head>
   <body>
     <%= html %>

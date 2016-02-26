@@ -28,16 +28,38 @@ class Build
 
   def markdown_to_html(file)
     markdown = File.read(file)
-    html = generate_html(markdown, file)
+    markdown, frontmatter = pull_yaml_frontmatter(markdown)
+    html = generate_html(markdown, file, frontmatter)
     File.open(file, 'w') { |file| file.write(html) }
     File.rename(file, file.split('.')[0] + '.html')
   end
 
-  def generate_html(markdown, file)
+  def generate_html(markdown, file, frontmatter)
     css_paths = relative_path_to_css(file)
     html = Kramdown::Document.new(markdown).to_html
     template = File.read(path + '/source/layouts/default.html.erb')
     ERB.new(template).result(binding)
+  end
+
+  def pull_yaml_frontmatter(markdown)
+    unless markdown.empty?
+      markdown_array = markdown.split("---")
+      if markdown_array[1]
+        new_variables = markdown_array[1]
+        markdown = markdown_array.last
+      end
+    end
+
+    hash = {}
+    unless new_variables.nil?
+      new_variables.strip!
+      var = new_variables.split("\n")
+      var.each do |pair|
+        element = pair.split(":")
+        hash[element[0].strip.to_sym] = element[1].strip
+      end
+    end
+    [markdown, hash]
   end
 
   def relative_path_to_css(submitted)

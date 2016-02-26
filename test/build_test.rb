@@ -59,10 +59,9 @@ class BuildTest < Minitest::Test
     markdown = File.read(path)
 
     submitted = built.generate_html(markdown, path, {})
-    expected  = "<!--<html><head><title>OurSite</title>
+    expected = "<html><head><title>OurSite</title>
     </head><body><h1id=\"so-git-acknowledges-folder\">SoGitAcknowledgesFolder!</h1>
-    </body></html>--><html><head><title>OurSite</title></head><body>
-    <h1id=\"so-git-acknowledges-folder\">SoGitAcknowledgesFolder!</h1></body></html>"
+    </body></html>"
 
     assert_equal expected.scan(/\S/).join, submitted.scan(/\S/).join
   end

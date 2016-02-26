@@ -1,4 +1,9 @@
 h1 {
+  color: #444444;
+  font-family: sans-serif;
+}
+
+p {
+  font-family: sans-serif;
   color: blue;
-  font-family: cursive;
 }

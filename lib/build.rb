@@ -42,24 +42,22 @@ class Build
   end
 
   def pull_yaml_frontmatter(markdown)
+    yaml_vars = {}
     unless markdown.empty?
-      markdown_array = markdown.split("---")
-      if markdown_array[1]
-        new_variables = markdown_array[1]
-        markdown = markdown_array.last
-      end
+      elements = markdown.split("---")
+      front_matter = elements[1]
+      markdown = elements.last
     end
+    front_matter.nil? ? [markdown, yaml_vars] : markdown_and_frontmatter(markdown, front_matter, yaml_vars)
+  end
 
-    hash = {}
-    unless new_variables.nil?
-      new_variables.strip!
-      var = new_variables.split("\n")
-      var.each do |pair|
-        element = pair.split(":")
-        hash[element[0].strip.to_sym] = element[1].strip
-      end
+  def markdown_and_frontmatter(markdown, front_matter, yaml_vars)
+    elements = front_matter.strip!.split("\n")
+    elements.each do |pair|
+      element = pair.split(":")
+      yaml_vars[element[0].strip.to_sym] = element[1].strip
     end
-    [markdown, hash]
+    [markdown, yaml_vars]
   end
 
   def relative_path_to_css(submitted)

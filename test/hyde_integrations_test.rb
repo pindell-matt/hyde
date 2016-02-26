@@ -19,40 +19,34 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_new_creates_directory
-    # skip
     create = `bin/hyde new #{@file_path}`
 
     assert File.exists? File.expand_path(@file_path)
   end
 
   def test_auto_delete_is_working
-    # skip
     refute File.exists? File.expand_path(@file_path)
   end
 
   def test_that_main_css_is_created_in_source
-    # skip
     create = `bin/hyde new #{@file_path}`
 
     assert File.exists? File.expand_path(@file_path + '/source/css/main.css')
   end
 
   def test_that_index_markdown_is_created_in_source
-    # skip
     create = `bin/hyde new #{@file_path}`
 
     assert File.exists? File.expand_path(@file_path + '/source/index.markdown')
   end
 
   def test_that_about_markdown_is_created_in_source
-    # skip
     create = `bin/hyde new #{@file_path}`
 
     assert File.exists? File.expand_path(@file_path + '/source/pages/about.markdown')
   end
 
   def test_that_initial_post_markdown_is_created_in_source_with_timestamp
-    # skip
     create    = `bin/hyde new #{@file_path}`
     timestamp = Time.new.strftime('%Y-%m-%d') + '-'
 
@@ -60,7 +54,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_that_main_css_is_created_in_output
-    # skip
     create = `bin/hyde new #{@file_path}`
     build  = `bin/hyde build #{@file_path}`
 
@@ -68,7 +61,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_that_index_html_is_created_in_output
-    # skip
     create = `bin/hyde new #{@file_path}`
     build  = `bin/hyde build #{@file_path}`
 
@@ -76,7 +68,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_that_about_html_is_created_in_output
-    # skip
     create = `bin/hyde new #{@file_path}`
     build  = `bin/hyde build #{@file_path}`
 
@@ -84,7 +75,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_that_post_html_is_created_in_output_with_timestamp
-    # skip
     create    = `bin/hyde new #{@file_path}`
     build     = `bin/hyde build #{@file_path}`
     timestamp = Time.new.strftime('%Y-%m-%d') + '-'
@@ -93,7 +83,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_that_new_markdown_post_with_timestamp_in_source
-    # skip
     post_name = "Long Post Name"
     create    = `bin/hyde new #{@file_path}`
     post      = `bin/hyde post #{@file_path} #{post_name}`
@@ -104,7 +93,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_that_new_html_post_with_timestamp_in_output
-    # skip
     post_name = "Long Post Name"
     create    = `bin/hyde new #{@file_path}`
     post      = `bin/hyde post #{@file_path} #{post_name}`
@@ -116,7 +104,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_html_uses_default_format
-    # skip
     post_name = "Default Formatted Post"
     create    = `bin/hyde new #{@file_path}`
     post      = `bin/hyde post #{@file_path} #{post_name}`
@@ -134,7 +121,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_listen_watches_file_system
-    # skip
     a_post  = "Initial Post"
     create  = `bin/hyde new #{@file_path}`
     watchfs = listen
@@ -155,7 +141,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_convert_sass_to_css
-    # skip
     create = `bin/hyde new #{@file_path}`
     build  = `bin/hyde build #{@file_path}`
 
@@ -163,7 +148,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_move_images_and_other_non_template_files
-    # skip
     create = `bin/hyde new #{@file_path}`
     FileUtils.cp('./test/test_content/turing.jpg', @file_path + '/source/')
     build  = `bin/hyde build #{@file_path}`
@@ -172,7 +156,6 @@ class HydeIntegrationsTest < Minitest::Test
   end
 
   def test_convert_haml_to_html
-    # skip
     create = `bin/hyde new #{@file_path}`
     build  = `bin/hyde build #{@file_path}`
 

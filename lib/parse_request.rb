@@ -1,5 +1,3 @@
-# require_relative 'hyde'
-# Load Path?
 require_relative 'event_watcher'
 require_relative 'generate_new'
 require_relative 'build'

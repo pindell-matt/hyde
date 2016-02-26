@@ -41,33 +41,6 @@ class Build
     ERB.new(template).result(binding)
   end
 
-  def pull_yaml_frontmatter(markdown)
-    unless markdown.empty?
-      elements = markdown.split("---")
-      front_matter = elements[1]
-      markdown = elements.last
-    end
-    eval_frontmatter(markdown, front_matter)
-  end
-
-  def eval_frontmatter(markdown, front_matter)
-    yaml_vars = {}
-    if front_matter.nil?
-      [markdown, yaml_vars]
-    else
-      markdown_and_frontmatter(markdown, front_matter, yaml_vars)
-    end
-  end
-
-  def markdown_and_frontmatter(markdown, front_matter, yaml_vars)
-    elements = front_matter.strip!.split("\n")
-    elements.each do |pair|
-      element = pair.split(":")
-      yaml_vars[element[0].strip.to_sym] = element[1].strip
-    end
-    [markdown, yaml_vars]
-  end
-
   def relative_path_to_css(submitted)
     path_to_submitted = Pathname.new(submitted)
     find_relative_paths(find_all_css, path_to_submitted)
@@ -101,6 +74,33 @@ class Build
     output = haml_engine.render
     File.open(file, 'w') { |file| file.write(output) }
     File.rename(file, file.split('.')[0] + '.html')
+  end
+
+  def pull_yaml_frontmatter(markdown)
+    unless markdown.empty?
+      elements = markdown.split("---")
+      front_matter = elements[1]
+      markdown = elements.last
+    end
+    eval_frontmatter(markdown, front_matter)
+  end
+
+  def eval_frontmatter(markdown, front_matter)
+    yaml_vars = {}
+    if front_matter.nil?
+      [markdown, yaml_vars]
+    else
+      markdown_and_frontmatter(markdown, front_matter, yaml_vars)
+    end
+  end
+
+  def markdown_and_frontmatter(markdown, front_matter, yaml_vars)
+    elements = front_matter.strip!.split("\n")
+    elements.each do |pair|
+      element = pair.split(":")
+      yaml_vars[element[0].strip.to_sym] = element[1].strip
+    end
+    [markdown, yaml_vars]
   end
 
 end

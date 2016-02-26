@@ -122,10 +122,12 @@ class HydeIntegrationsTest < Minitest::Test
     post      = `bin/hyde post #{@file_path} #{post_name}`
     build     = `bin/hyde build #{@file_path}`
     file_name = Time.new.strftime('%Y-%m-%d') + '-' + post_name.gsub(' ', '-') + '.html'
-    expected  = "<html><head><linkrel=\"stylesheet\"type=\"text/css\"href=\"
-    ./../css/main.css\"><linkrel=\"stylesheet\"type=\"text/css\"href=\"
-    ./../css/test.css\"><title>OurSite</title></head><body><h1id=\"default-formatted-post\">
-    DefaultFormattedPost</h1><p>Yourcontenthere</p></body></html>\n"
+    expected  = "<!--<html><head><linkrel=\"stylesheet\"type=\"text/css\"href=\"./../css/main.css\">
+    <linkrel=\"stylesheet\"type=\"text/css\"href=\"./../css/test.css\"><title>OurSite</title>
+    </head><body><h1id=\"default-formatted-post\">DefaultFormattedPost</h1><p>Yourcontenthere</p>
+    </body></html>--><html><head><linkrel=\"stylesheet\"type=\"text/css\"href=\"./../css/main.css\">
+    <linkrel=\"stylesheet\"type=\"text/css\"href=\"./../css/test.css\"><title>OurSite</title></head>
+    <body><h1id=\"default-formatted-post\">DefaultFormattedPost</h1><p>Yourcontenthere</p></body></html>"
     actual = File.read File.expand_path(@file_path + '/_output/posts/' + file_name)
 
     assert_equal expected.scan(/\S/).join, actual.scan(/\S/).join
@@ -140,10 +142,12 @@ class HydeIntegrationsTest < Minitest::Test
     post    = `bin/hyde post #{@file_path} #{a_post}`
 
     file_name = Time.new.strftime('%Y-%m-%d') + '-' + a_post.gsub(' ', '-') + '.html'
-    expected  = "<html><head><linkrel=\"stylesheet\"type=\"text/css\"href=\"
-    ./../css/main.css\"><linkrel=\"stylesheet\"type=\"text/css\"href=\"
-    ./../css/test.css\"><title>OurSite</title></head><body><h1id=\"initial-post\">
-    InitialPost</h1><p>Yourcontenthere</p></body></html>\n"
+    expected  = "<!--<html><head><linkrel=\"stylesheet\"type=\"text/css\"href=\"./../css/main.css\">
+    <linkrel=\"stylesheet\"type=\"text/css\"href=\"./../css/test.css\">
+    <title>OurSite</title></head><body><h1id=\"initial-post\">InitialPost</h1><p>Yourcontenthere</p>
+    </body></html>--><html><head><linkrel=\"stylesheet\"type=\"text/css\"href=\"./../css/main.css\">
+    <linkrel=\"stylesheet\"type=\"text/css\"href=\"./../css/test.css\"><title>OurSite</title></head>
+    <body><h1id=\"initial-post\">InitialPost</h1><p>Yourcontenthere</p></body></html>"
     pause     = sleep(1)
     actual    = File.read File.expand_path(@file_path + '/_output/posts/' + file_name)
 

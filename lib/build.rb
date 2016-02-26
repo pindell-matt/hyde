@@ -28,13 +28,13 @@ class Build
 
   def markdown_to_html(file)
     markdown = File.read(file)
-    markdown, frontmatter = pull_yaml_frontmatter(markdown)
-    html = generate_html(markdown, file, frontmatter)
+    markdown, front_matter = pull_yaml_frontmatter(markdown)
+    html = generate_html(markdown, file, front_matter)
     File.open(file, 'w') { |file| file.write(html) }
     File.rename(file, file.split('.')[0] + '.html')
   end
 
-  def generate_html(markdown, file, frontmatter)
+  def generate_html(markdown, file, front_matter)
     css_paths = relative_path_to_css(file)
     html = Kramdown::Document.new(markdown).to_html
     template = File.read(path + '/source/layouts/default.html.erb')
@@ -42,13 +42,21 @@ class Build
   end
 
   def pull_yaml_frontmatter(markdown)
-    yaml_vars = {}
     unless markdown.empty?
       elements = markdown.split("---")
       front_matter = elements[1]
       markdown = elements.last
     end
-    front_matter.nil? ? [markdown, yaml_vars] : markdown_and_frontmatter(markdown, front_matter, yaml_vars)
+    eval_frontmatter(markdown, front_matter)
+  end
+
+  def eval_frontmatter(markdown, front_matter)
+    yaml_vars = {}
+    if front_matter.nil?
+      [markdown, yaml_vars]
+    else
+      markdown_and_frontmatter(markdown, front_matter, yaml_vars)
+    end
   end
 
   def markdown_and_frontmatter(markdown, front_matter, yaml_vars)

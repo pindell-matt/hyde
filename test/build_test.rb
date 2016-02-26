@@ -58,7 +58,7 @@ class BuildTest < Minitest::Test
     path     = test_path + '/placeholder.md'
     markdown = File.read(path)
 
-    submitted = built.generate_html(markdown, path)
+    submitted = built.generate_html(markdown, path, {})
     expected  = "<html>\n  <head>\n    \n
     <title>Our Site</title>\n  </head>\n  <body>\n
     <h1 id=\"so-git-acknowledges-folder\">So Git Acknowledges Folder!</h1>
